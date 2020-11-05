@@ -24,7 +24,7 @@ typedef struct Sentence {
 struct Stack stack;
 struct Stack tmpStack;
 struct Sentence s;
-const int priorityMatix[6][6] = {
+const int priorityMatrix[6][6] = {
 	{1, -1, -1, 1, -1, 1},
 	{1, 1, -1, 1, -1, 1},
 	{-1, -1, -1, 0, -1, 1},
@@ -247,7 +247,7 @@ bool findLPrime()
 		{
 			dst = i;
 			currentSign = stack.sign[i];
-			if (priorityMatix[findIndex(formerSign)][findIndex(currentSign)] > 0)
+			if (priorityMatrix[findIndex(formerSign)][findIndex(currentSign)] > 0)
 			{
 				// 规约
 				if (src >= 1 && isVn(stack.sign[src - 1]))
@@ -256,7 +256,7 @@ bool findLPrime()
 					dst++;
 				return reduceLPrime(src, dst);
 			}
-			else if (priorityMatix[findIndex(formerSign)][findIndex(currentSign)] < 0)
+			else if (priorityMatrix[findIndex(formerSign)][findIndex(currentSign)] < 0)
 			{
 				// 更新左侧
 				src = i;
@@ -284,18 +284,24 @@ void analyseGrammar()
 	if (strlen(s.content) <= 0)
 	{
 		OtherError;
+		return;
 	}
 
 	init();
 
 	while (s.ptr < s.len || stacklen()>1 || stack.sign[stack.top] != 'N')
 	{
-		if (priorityMatix[findIndex(stackgetVt())][findIndex(s.content[s.ptr])] == Undefined)
+		if (!isVt(s.content[s.ptr]))
+		{
+			SignUndefined;
+			return;
+		}
+		else if (priorityMatrix[findIndex(stackgetVt())][findIndex(s.content[s.ptr])] == Undefined)
 		{
 			UnableToCompare;
 			return;
 		}
-		else if (priorityMatix[findIndex(stackgetVt())][findIndex(s.content[s.ptr])] <= 0)
+		else if (priorityMatrix[findIndex(stackgetVt())][findIndex(s.content[s.ptr])] <= 0)
 		{
 			// 压栈
 			read(s.content[s.ptr++]);
