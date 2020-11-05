@@ -27,7 +27,7 @@ struct Sentence s;
 const int priorityMatrix[6][6] = {
 	{1, -1, -1, 1, -1, 1},
 	{1, 1, -1, 1, -1, 1},
-	{-1, -1, -1, 0, -1, 1},
+	{-1, -1, -1, 0, -1, Undefined},
 	{1, 1, Undefined, 1, Undefined, 1},
 	{1, 1, Undefined, 1, Undefined, 1},
 	{-1, -1, -1, -1, -1, Undefined}
